@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STFE - AR Product Viewer</title>
+  
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+  
+  <style>
+    body { 
+      margin: 0; 
+      padding: 0; 
+      background-color: #f4f4f4; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+    
+    /* Make the viewer take up the whole mobile screen */
+    model-viewer { 
+      width: 100%; 
+      height: 100%; 
+      position: relative;
+    }
+
+    /* Hide the reset button when AR is active */
+    model-viewer:not([ar-status="not-presenting"]) .btn-reset {
+      display: none;
+    }
+
+    /* Shared styling for custom buttons */
+    .custom-btn {
+      position: absolute;
+      top: 30px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    .custom-btn:active { transform: translateY(2px); }
+
+    /* Specific styling for AR Button */
+    .btn-ar {
+      right: 30px;
+      background-color: #007BFF; /* Blue */
+    }
+
+    /* Specific styling for Reset Button */
+    .btn-reset {
+      left: 30px;
+      background-color: #6c757d; /* Gray */
+    }
+  </style>
+</head>
+<body>
+
+  <model-viewer id="product-viewer"
+    src="Curiosity.glb"
+    ios-src="Curiosity.usdz"
+    alt="A 3D model of Curiosity Rover"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    ar-placement="floor"
+    ar-scale="auto"
+    camera-controls
+    auto-rotate>
+    
+    <button slot="ar-button" class="custom-btn btn-ar">
+      View in AR
+    </button>
+
+    <button id="reset-btn" class="custom-btn btn-reset">
+      Reset View
+    </button>
+
+  </model-viewer>
+
+  <script>
+    const viewer = document.getElementById('product-viewer');
+    const resetBtn = document.getElementById('reset-btn');
+
+    resetBtn.addEventListener('click', () => {
+      // Setting these to 'auto auto auto' resets the camera zoom, angle, and pan back to the starting view
+      viewer.cameraOrbit = 'auto auto auto';
+      viewer.cameraTarget = 'auto auto auto';
+    });
+  </script>
+
+</body>
+</html>
